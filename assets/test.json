@@ -1,0 +1,51 @@
+{
+  "rakuten_hotels": [
+    {
+      "code": "00mT",
+      "name": "Kurhaus Cademario",
+      "address": "Ch 6936",
+      "city": "Bioggio",
+      "postal_code": "6936",
+      "country_code": "CH",
+      "latitude": "46.021398",
+      "longitude": "8.8913589",
+      "star_rating": "0"
+    },
+    {
+      "code": "00n4",
+      "name": "Sweet Rio Residence Taquara",
+      "address": "Rua Antonio Da Costa Magalhaes 274",
+      "city": "Rio De Janeiro",
+      "postal_code": "22723 110",
+      "country_code": "BR",
+      "latitude": "-22.911012",
+      "longitude": "-43.3970566",
+      "star_rating": "0"
+    },
+    {
+      "code": "01KP",
+      "name": "Hotel Gran Via Torrevieja",
+      "address": "C S. Pascual S N Esq. Patricio Zammit",
+      "city": "Torrevieja",
+      "postal_code": "3182",
+      "country_code": "ES",
+      "latitude": "37.980663",
+      "longitude": "-0.675504",
+      "star_rating": "1"
+    },
+    {
+      "code": "02pb",
+      "name": "Red River Inn Alexandria",
+      "address": "3801 Halsey Street",
+      "city": "Alexandria",
+      "postal_code": "71301",
+      "state_province": "LA",
+      "country_code": "US",
+      "latitude": "31.278309",
+      "longitude": "-92.470856",
+      "star_rating": "2",
+      "category_id": "2"
+    }
+    ]
+
+    }

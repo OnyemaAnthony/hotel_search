@@ -111,7 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
       double distanceInMeters = distanceBetween(lat,long,latitude, longitude);
       int distanceInKM = (distanceInMeters * 0.001).toInt();
-      if (distanceInKM < 10) {
+      if (distanceInKM > 10) {
         nearbyHotels.add(rakuten[i]['city']);
       }
     }

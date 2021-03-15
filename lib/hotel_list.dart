@@ -15,7 +15,7 @@ class HotelList extends StatelessWidget {
       body: ListView.builder(
           itemCount: hotels.length,
           itemBuilder: (context, index) {
-            return Card(
+            return hotels.isEmpty ? Text('No hotels available in the specified location'):Card(
               child: Padding
                 (padding:EdgeInsets.all(10),child: Text(hotels[index])),
               

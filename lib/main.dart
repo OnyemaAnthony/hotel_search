@@ -12,6 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Hotel search',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -110,9 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
       double distanceInMeters = distanceBetween(lat,long,latitude, longitude);
       int distanceInKM = (distanceInMeters * 0.001).toInt();
-      print('the distance is ${distanceInKM}');
-      print('the names are ${rakuten[i]['city']}');
-      if (distanceInKM > 10) {
+      if (distanceInKM < 10) {
         nearbyHotels.add(rakuten[i]['city']);
       }
     }

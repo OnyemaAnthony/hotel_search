@@ -1,113 +1,127 @@
-
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-
+import 'package:hotel_search/hotel_list.dart';
 
 void main() {
   runApp(MyApp());
 }
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Hotel search',
       theme: ThemeData(
-
         primarySwatch: Colors.blue,
       ),
       home: MyHomePage(),
     );
   }
 }
+
 List nearbyHotels = [];
+List rakuten= [];
 
 class MyHomePage extends StatefulWidget {
-
-
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  TextEditingController latController = TextEditingController();
+  TextEditingController longController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await getJsonFile(60,-44.5465317);
+        await fetchHotels();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text('Hotels'),
       ),
-      body:Container(
+      body: Container(
+        padding: EdgeInsets.all(10),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-
             TextFormField(
+              keyboardType: TextInputType.number,
+              controller: latController,
               decoration: InputDecoration(
-               // border: Board
-              ),
-            )
+                  hintText: 'Enter latitude here',
+                  border: OutlineInputBorder()),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            TextFormField(
+              keyboardType: TextInputType.number,
+              controller: longController,
+              decoration: InputDecoration(
 
+                  hintText: 'Enter latitude here',
+                  border: OutlineInputBorder()),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            TextButton(
+              onPressed: () async{
+                await checkHotels(double.parse(latController.text), double.parse(longController.text));
+
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => HotelList(nearbyHotels)));
+              },
+              child: Text('Calculate'),
+            ),
           ],
         ),
       ),
     );
-
   }
 
 
-  Future<void> getJsonFile(double lat,double long)async{
-
-
-    var data = await DefaultAssetBundle.of(context).loadString("assets/hotel.json");
+  Future<void> fetchHotels()async{
+    var data =
+        await DefaultAssetBundle.of(context).loadString("assets/hotel.json");
     final jsonResult = json.decode(data);
-
-    List rakuten = jsonResult['rakuten_hotels'];
-    for(int i =0; i < rakuten.length; i++){
-
-      double latitude = isNumeric(rakuten[i]['latitude'])?double.parse(rakuten[i]['latitude']):double.parse('0.0');
-    //  double longitude = double.parse(rakuten[i]['longitude']);
-     // double longitude = rakuten[i]['longitude']? double.parse(rakuten[i]['longitude']) : 0;
-       //double longitude = rakuten[i]['longitude'] != null? double.parse(rakuten[i]['longitude']):double.parse('0.0');
-      //print('the longitude is $longitude and the latitude is $latitude');
-
-
-
-
-
-      double distanceInMeters = distanceBetween(latitude,0.0, lat,long);//returns distance in meters
-      int distanceInKM = (distanceInMeters * 0.001).toInt();
-      print('the names are ${rakuten[i]['city']}');
-
-      if(distanceInKM <= 10){
-
-        //nearbyHotels[0]= rakuten[i]['city'];
-       // rakuten[i]['city'] = nearbyHotels.add()
-        nearbyHotels.add(rakuten[i]['city']);
-
-      }
-     // print(distanceInKM>10);
-
-    }
-    print('the nearby is ${nearbyHotels.length}');
-
+   rakuten = jsonResult['rakuten_hotels'];
   }
-bool isNumeric(String s){
-    if(s == null){
+
+  Future<void> checkHotels(double lat, double long) async {
+
+    for (int i = 0; i < rakuten.length; i++) {
+      double latitude = isNumeric(rakuten[i]['latitude'])
+          ? double.parse(rakuten[i]['latitude'])
+          : double.parse('0.0');
+      double longitude = isNumeric(rakuten[i]['latitude'])
+          ? double.parse(rakuten[i]['latitude'])
+          : double.parse('0.0');
+
+      double distanceInMeters = distanceBetween(lat,long,latitude, longitude);
+      int distanceInKM = (distanceInMeters * 0.001).toInt();
+      print('the distance is ${distanceInKM}');
+      print('the names are ${rakuten[i]['city']}');
+      if (distanceInKM > 10) {
+        nearbyHotels.add(rakuten[i]['city']);
+      }
+    }
+  }
+
+  bool isNumeric(String s) {
+    if (s == null) {
       return false;
     }
-    return double.parse(s,(e)=> null) != null;
-}
-
+    return double.parse(s, (e) => null) != null;
+  }
 }
